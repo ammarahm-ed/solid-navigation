@@ -2,6 +2,15 @@
 
 Native navigation for SolidJS mobile apps built with NativeScript.
 
+> **Warning**
+> This is a work in progress.
+
+## Installation
+
+```
+npm install solid-navigation --save
+```
+
 ## Usage
 
 Create a router inside a new file, for example `app/router.ts`;
