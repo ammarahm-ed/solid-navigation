@@ -1,0 +1,48 @@
+# solid-navigation
+
+Native navigation for SolidJS mobile apps built with NativeScript.
+
+## Usage
+
+Create a router inside a new file, for example `app/router.ts`;
+
+```tsx
+import { createStackRouter, RouteDefinition } from "solid-navigation";
+
+declare module "solid-navigation" {
+  export interface Routers {
+    Default: {
+      Home: RouteDefinition<{
+        user: string;
+      }>;
+      Settings: RouteDefinition;
+      Feed: RouteDefinition;
+    };
+  }
+}
+
+export const { Route, StackRouter, useParams, useRouter } =
+  createStackRouter<"Default">();
+```
+
+Use the router in your app:
+
+```tsx
+import Home from "./home";
+import { Route, StackRouter } from "./router";
+const App = () => {
+  return (
+    <StackRouter initialRouteName="Home">
+      <Route
+        name="Home"
+        component={Home}
+        initialParams={{
+          user: "@ammarahmed",
+        }}
+      />
+    </StackRouter>
+  );
+};
+```
+
+# MIT Licensed

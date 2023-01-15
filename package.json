@@ -1,6 +1,6 @@
 {
   "name": "solid-navigation",
-  "version": "1.0.0-alpha.3",
+  "version": "1.0.0-alpha.4",
   "description": "Native navigation for SolidJS mobile apps built with NativeScript.",
   "main": "dist/index.js",
   "scripts": {
