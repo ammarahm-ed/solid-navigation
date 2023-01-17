@@ -11,9 +11,11 @@ import { Frame, NavigationTransition, Page } from "@nativescript/core";
     declare module "solid-navigation" {
       export interface Routers {
         Default: {
+          // A route with initial params
           Home: RouteDefinition<{
             user: string;
           }>;
+          // Routes without any initial params.
           Settings: RouteDefinition;
           Feed: RouteDefinition;
         };
@@ -26,14 +28,7 @@ import { Frame, NavigationTransition, Page } from "@nativescript/core";
 export interface Routers {}
 
 export type RouteDefinition<T = undefined> = {
-  options?: {
-    animated?: boolean;
-    transition?: NavigationTransitionSolid;
-    transitionIOS?: NavigationTransitionSolid;
-    transitionAndroid?: NavigationTransitionSolid;
-    clearHistory?: boolean;
-    backstackVisible?: boolean;
-  };
+  options?: RouteOptions;
   params?: T;
   component: () => JSX.Element;
 };
@@ -64,19 +59,54 @@ export interface NavigationStack<
   Key extends keyof Routers,
   RouteName extends keyof Routers[Key]
 > {
+  /**
+   * Get the ref of the Frame that is rendering the current page.
+   */
   ref: () => Frame | undefined;
+  /**
+   * Navigate to a page in stack.
+   */
   navigate: <RouteName extends keyof Routers[Key]>(
     routeName: RouteName,
     //@ts-ignore
     options?: RouteOptions & { params?: Routers[Key][RouteName]["params"] }
   ) => void;
+  /**
+   * Go back to previous route.
+   * @returns
+   */
   goBack: () => void;
+  /**
+   * Get all the routes that have been registered with this router.
+   */
   routes: NavigationRoute<Key, RouteName>[];
+  /**
+   * Get all the routes in the history stack.
+   */
   stack: NavigationRoute<Key, RouteName>[];
+  /**
+   * Get the current route
+   */
+  current: () => NavigationRoute<Key, RouteName>;
+  /**
+   * The initial route to render when the app loads.
+   */
+  initialRouteName?: RouteName;
+  /**
+   * Gets the parent router context if any exists.
+   */
+  parent: <
+    K extends keyof Routers,
+    R extends keyof Routers[Key]
+  >() => NavigationStack<K, R>;
+}
+
+export interface NavigationStackInternal<
+  Key extends keyof Routers,
+  RouteName extends keyof Routers[Key]
+> {
   pushRoute: (route: NavigationRoute<Key, RouteName>) => void;
   removeRoute: (route: NavigationRoute<Key, RouteName>) => void;
-  current: () => NavigationRoute<Key, RouteName>;
-  initialRouteName?: RouteName;
 }
 
 export type RouteOptions = {

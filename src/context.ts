@@ -1,5 +1,10 @@
 import { createContext, useContext } from "solid-js";
 
+export const NavigationContextInternal = createContext();
+export function useRouterInternal() {
+  return useContext(NavigationContextInternal);
+}
+
 export const NavigationContext = createContext();
 export function useRouter() {
   return useContext(NavigationContext);

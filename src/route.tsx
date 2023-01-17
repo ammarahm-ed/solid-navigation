@@ -1,6 +1,11 @@
 import { onCleanup, onMount } from "solid-js";
-import { useRouter } from "./context";
-import { NavigationStack, RouteOptions, Routers } from "./types";
+import { useRouter, useRouterInternal } from "./context";
+import {
+  NavigationStack,
+  NavigationStackInternal,
+  RouteOptions,
+  Routers,
+} from "./types";
 
 export function createRoute<Key extends keyof Routers>() {
   const Route = <RouteName extends keyof Routers[Key]>(props: {
@@ -11,6 +16,10 @@ export function createRoute<Key extends keyof Routers>() {
     routeOptions?: RouteOptions;
   }): JSX.Element => {
     const router = useRouter() as NavigationStack<Key, RouteName>;
+    const routerInternal = useRouterInternal() as NavigationStackInternal<
+      Key,
+      RouteName
+    >;
     const route = {
       name: props.name,
       component: props.component,
@@ -18,7 +27,7 @@ export function createRoute<Key extends keyof Routers>() {
     };
 
     onMount(() => {
-      router?.pushRoute(route);
+      routerInternal?.pushRoute(route);
       if (router?.initialRouteName === props.name && !router.current()) {
         router?.navigate(props.name, {
           params: props.initialParams,
@@ -27,7 +36,7 @@ export function createRoute<Key extends keyof Routers>() {
     });
 
     onCleanup(() => {
-      router?.removeRoute(route);
+      routerInternal?.removeRoute(route);
     });
 
     return null;
