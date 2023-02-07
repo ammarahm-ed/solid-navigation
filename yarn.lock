@@ -2,10 +2,10 @@
 # yarn lockfile v1
 
 
-"@nativescript-community/solid-js@0.0.4-alpha.2":
-  version "0.0.4-alpha.2"
-  resolved "https://registry.yarnpkg.com/@nativescript-community/solid-js/-/solid-js-0.0.4-alpha.2.tgz#268b842c4a722adb0da7a0781baa893e58afe8dd"
-  integrity sha512-pk8fhpBvRFbL5qJJwrKXaGPb2jSAR4ZosOaaHg42JbzkNsFjmb47t/aQ3Z9TDDmmP9h9FENzx/9WZZjnfYZApg==
+"@nativescript-community/solid-js@0.0.4-alpha.4":
+  version "0.0.4-alpha.4"
+  resolved "https://registry.yarnpkg.com/@nativescript-community/solid-js/-/solid-js-0.0.4-alpha.4.tgz#c7b2f0690404bf7ebe2f6d9d99ec013b6cbfed47"
+  integrity sha512-uPokHhqdUCi4KsbAzIkq4KrQpW27zoC6lresfqCZOhgb3ah5DsRtNC/212jfcPaBDAHLNw6atCZN6EgECGMeWg==
 
 "@nativescript/core@~8.4.1":
   version "8.4.4"
@@ -68,10 +68,10 @@ csstype@^3.1.0:
   resolved "https://registry.yarnpkg.com/csstype/-/csstype-3.1.1.tgz#841b532c45c758ee546a11d5bd7b7b473c8c30b9"
   integrity sha512-DJR/VvkAvSZW9bTouZue2sSxDwdTN92uHjqeKVm+0dAqdfNykRzQ95tay8aXMBAAPpUiq4Qcug2L7neoRh2Egw==
 
-dominative@^0.0.7-alpha.2:
-  version "0.0.7-alpha.2"
-  resolved "https://registry.yarnpkg.com/dominative/-/dominative-0.0.7-alpha.2.tgz#d55732e0e5e03f04cde4857d492014f3ab2bd52c"
-  integrity sha512-Ltkz4lsiomA28SzsynwCuyZ2AwucfYYYyokwzrdS0bfz5FKb1uwm8kEHiFb55Wq9O10mwo3znPYNKprvLlLVEQ==
+dominative@^0.0.8-alpha.2:
+  version "0.0.8-alpha.2"
+  resolved "https://registry.yarnpkg.com/dominative/-/dominative-0.0.8-alpha.2.tgz#1894f657a5cee3756f25144c9a11a39a89ce1800"
+  integrity sha512-OSZ6aNbcpEIepLeAEPailXRl52qee1dW1mxfUrdX2eb3l7MLZqP6EDFTpA1mgWWIqKVcQFoL8JKGCCe51R26cg==
 
 emoji-regex@^10.2.1:
   version "10.2.1"
