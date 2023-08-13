@@ -1,5 +1,6 @@
+import { render } from "@nativescript-community/solid-js";
 import { Frame } from "@nativescript/core";
-import { children, createRoot, createSignal } from "solid-js";
+import { createSignal } from "solid-js";
 import { createStore } from "solid-js/store";
 import {
   NavigationContext,
@@ -18,12 +19,6 @@ import {
   Routers,
 } from "./types";
 import { createRouteID } from "./utils";
-
-declare global {
-  var console: {
-    log: (...logs: any[]) => void;
-  };
-}
 
 function getRoutes<
   Key extends keyof Routers,
@@ -107,35 +102,31 @@ export function createStackRouter<Key extends keyof Routers>(
               },
             ];
           });
-          let dispose: () => void;
-          createRoot((disposer) => {
-            dispose = () => {
-              const disposeNativeView = () => {
-                dispose?.();
-                setState("stack", (routes) => {
-                  const _routes = [...routes].splice(
-                    routes.findIndex((r) => r.id === page.id),
-                    1
-                  );
-                  return _routes;
-                });
-                page.off("disposeNativeView", disposeNativeView);
-              };
-              page.on("disposeNativeView", disposeNativeView);
-              disposer();
-            };
 
-            const element = children(() => (
+          const disposer = render(
+            () => (
               <StackItem
                 context={context}
                 paramAccessor={paramAccessor}
                 component={route.component}
               />
-            ));
-            let el = element();
-            el = Array.isArray(el) ? el : [el];
-            page.append(...el);
-          });
+            ),
+            page as any
+          );
+
+          const disposeNativeView = () => {
+            //@ts-ignore
+            disposer();
+            setState("stack", (routes) => {
+              const _routes = [...routes].splice(
+                routes.findIndex((r) => r.id === page.id),
+                1
+              );
+              return _routes;
+            });
+            page.off("disposeNativeView", disposeNativeView);
+          };
+          page.on("disposeNativeView", disposeNativeView);
 
           return page as any;
         },

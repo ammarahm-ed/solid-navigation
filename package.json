@@ -1,6 +1,6 @@
 {
   "name": "solid-navigation",
-  "version": "1.0.0-alpha.6",
+  "version": "1.0.0-alpha.7",
   "description": "Native navigation for SolidJS mobile apps built with NativeScript.",
   "main": "dist/index.js",
   "scripts": {
@@ -32,11 +32,13 @@
   },
   "devDependencies": {
     "@nativescript-community/solid-js": "0.0.4-alpha.4",
-    "@nativescript/core": "~8.4.1",
-    "dominative": "^0.0.8-alpha.2",
-    "solid-js": "^1.6.6",
+    "@nativescript/core": "~8.5.9",
+    "dominative": "^0.0.9-alpha.2",
+    "solid-js": "^1.7.11",
     "typescript": "4.9.4",
-    "undom-ng": "^1.0.2"
+    "undom-ng": "^1.0.10",
+    "@nativescript-dom/core-types": "^1.0.26",
+    "@nativescript-dom/solidjs-types": "^1.0.11"
   },
   "publishConfig": {
     "access": "public"

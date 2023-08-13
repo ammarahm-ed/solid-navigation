@@ -7,10 +7,20 @@
   resolved "https://registry.yarnpkg.com/@nativescript-community/solid-js/-/solid-js-0.0.4-alpha.4.tgz#c7b2f0690404bf7ebe2f6d9d99ec013b6cbfed47"
   integrity sha512-uPokHhqdUCi4KsbAzIkq4KrQpW27zoC6lresfqCZOhgb3ah5DsRtNC/212jfcPaBDAHLNw6atCZN6EgECGMeWg==
 
-"@nativescript/core@~8.4.1":
-  version "8.4.4"
-  resolved "https://registry.yarnpkg.com/@nativescript/core/-/core-8.4.4.tgz#b37aa9a728bb8ed88e92dcbe649639c8952d4729"
-  integrity sha512-AQL942V+psjw+zBlXvrwtovV3/KZicgh4sJb28/+rnh5qJMm/0mrGOhRVA6BzDEGMUqWSSL11WOP0ClWqoA/GQ==
+"@nativescript-dom/core-types@^1.0.26":
+  version "1.0.26"
+  resolved "https://registry.yarnpkg.com/@nativescript-dom/core-types/-/core-types-1.0.26.tgz#a21281e3af288588fe5ae5ddb02b41c19095ab1c"
+  integrity sha512-+S0OXC6pJVdTNrY7bg7f9/2thZFcOa6tsAS48GxThTszjmTi1kxkC6+7xcjbrMizWW1vt6O4rYKtfSf8jERwtQ==
+
+"@nativescript-dom/solidjs-types@^1.0.11":
+  version "1.0.11"
+  resolved "https://registry.yarnpkg.com/@nativescript-dom/solidjs-types/-/solidjs-types-1.0.11.tgz#d3e7c7b4d85d078eac01f235de8234644f31f3e9"
+  integrity sha512-RJZnUJBre1pEE3jcL7xbN+fK6BqDjrSO5BCeqFuhLFnQZbh2T4imDaG5MTay0O0rGRx9OEBcnlXg8wJCBVNACA==
+
+"@nativescript/core@~8.5.9":
+  version "8.5.9"
+  resolved "https://registry.yarnpkg.com/@nativescript/core/-/core-8.5.9.tgz#fd0d75375808f6c973fd39adc8e08c849c6861e8"
+  integrity sha512-7dHa0cG6GZaBCcjPWhkcSAdvjVevgZN7+3frxO6Rv7c7e1lUDL7yJXy3WnhWZL+iCEG0lLWwQNXkeYsixHie6g==
   dependencies:
     "@nativescript/hook" "~2.0.0"
     acorn "^8.7.0"
@@ -68,10 +78,10 @@ csstype@^3.1.0:
   resolved "https://registry.yarnpkg.com/csstype/-/csstype-3.1.1.tgz#841b532c45c758ee546a11d5bd7b7b473c8c30b9"
   integrity sha512-DJR/VvkAvSZW9bTouZue2sSxDwdTN92uHjqeKVm+0dAqdfNykRzQ95tay8aXMBAAPpUiq4Qcug2L7neoRh2Egw==
 
-dominative@^0.0.8-alpha.2:
-  version "0.0.8-alpha.2"
-  resolved "https://registry.yarnpkg.com/dominative/-/dominative-0.0.8-alpha.2.tgz#1894f657a5cee3756f25144c9a11a39a89ce1800"
-  integrity sha512-OSZ6aNbcpEIepLeAEPailXRl52qee1dW1mxfUrdX2eb3l7MLZqP6EDFTpA1mgWWIqKVcQFoL8JKGCCe51R26cg==
+dominative@^0.0.9-alpha.2:
+  version "0.0.9-alpha.2"
+  resolved "https://registry.yarnpkg.com/dominative/-/dominative-0.0.9-alpha.2.tgz#9731c0e00225011162b921f3f3d12534382eff7f"
+  integrity sha512-5PU1Zb3QNnl4t341ie/DlbNvWP5wzMKSjwg4U1UqZrAHgFUygSITpCPc0xatoS4HnvpeUX0D8fwXnTuzHTLDOQ==
 
 emoji-regex@^10.2.1:
   version "10.2.1"
@@ -150,12 +160,18 @@ reduce-css-calc@^2.1.7:
     css-unit-converter "^1.1.1"
     postcss-value-parser "^3.3.0"
 
-solid-js@^1.6.6:
-  version "1.6.9"
-  resolved "https://registry.yarnpkg.com/solid-js/-/solid-js-1.6.9.tgz#98dc71f1bacf9e6efe771cf47c0d023e5bd892ed"
-  integrity sha512-kV3fMmm+1C2J95c8eDOPKGfZHnuAkHUBLG4hX1Xu08bXeAIPqmxuz/QdH3B8SIdTp3EatBVIyA6RCes3hrGzpg==
+seroval@^0.5.0:
+  version "0.5.1"
+  resolved "https://registry.yarnpkg.com/seroval/-/seroval-0.5.1.tgz#e6d17365cdaaae7e50815c7e0bcd7102facdadf3"
+  integrity sha512-ZfhQVB59hmIauJG5Ydynupy8KHyr5imGNtdDhbZG68Ufh1Ynkv9KOYOAABf71oVbQxJ8VkWnMHAjEHE7fWkH5g==
+
+solid-js@^1.7.11:
+  version "1.7.11"
+  resolved "https://registry.yarnpkg.com/solid-js/-/solid-js-1.7.11.tgz#c37706382bcfd563459810434b1382b550c27867"
+  integrity sha512-JkuvsHt8jqy7USsy9xJtT18aF9r2pFO+GB8JQ2XGTvtF49rGTObB46iebD25sE3qVNvIbwglXOXdALnJq9IHtQ==
   dependencies:
     csstype "^3.1.0"
+    seroval "^0.5.0"
 
 source-map@^0.6.1:
   version "0.6.1"
@@ -172,10 +188,10 @@ typescript@4.9.4:
   resolved "https://registry.yarnpkg.com/typescript/-/typescript-4.9.4.tgz#a2a3d2756c079abda241d75f149df9d561091e78"
   integrity sha512-Uz+dTXYzxXXbsFpM86Wh3dKCxrQqUcVMxwU54orwlJjOpO3ao8L7j5lH+dWfTwgCwIuM9GQ2kvVotzYJMXTBZg==
 
-undom-ng@^1.0.2:
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/undom-ng/-/undom-ng-1.0.2.tgz#5f734a00a2f16b4df44f7c0636b3910388355188"
-  integrity sha512-QEhnE0mAWn8zfe5U71EjZraOi9xh4dEVWeVULZyF18yQVbv2enZIAJzp03QlglTGubS19lAH17ah06P2vqJv3w==
+undom-ng@^1.0.10:
+  version "1.0.10"
+  resolved "https://registry.yarnpkg.com/undom-ng/-/undom-ng-1.0.10.tgz#e7f9b128763c2ec6d5de20f95dbd83b32a71eda1"
+  integrity sha512-BkBtPQ925hRjAZBJSCCNHr9igi/VdZbrizqjHC4uZWWxVPOW0ENXKYMqO/AW0nKXPc5G5psQuJ+q0VlFbyM0Fg==
 
 wrappy@1:
   version "1.0.2"
