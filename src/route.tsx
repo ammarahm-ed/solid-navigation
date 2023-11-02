@@ -10,7 +10,7 @@ import {
 export function createRoute<Key extends keyof Routers>() {
   const Route = <RouteName extends keyof Routers[Key]>(props: {
     name: RouteName;
-    component: JSX.Element;
+    component: () => JSX.Element;
     //@ts-ignore
     initialParams?: Routers[Key][RouteName]["params"];
     routeOptions?: RouteOptions;

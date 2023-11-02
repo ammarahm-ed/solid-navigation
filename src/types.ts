@@ -45,7 +45,7 @@ export type NavigationRoute<
 > = {
   id?: string;
   name: RouteName;
-  component?: JSX.Element;
+  component?: () => JSX.Element;
   ref?: Page;
   //@ts-ignore
   params?: Routers[Key][RouteName]["params"];
