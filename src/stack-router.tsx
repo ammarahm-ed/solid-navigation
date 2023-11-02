@@ -205,9 +205,13 @@ export function createStackRouter<Key extends keyof Routers>(
     Route: createRoute<Key>(),
     StackRouter: StackRouter,
     useRouter: useRouter as () => NavigationStack<Key, RouteName>,
-    useParams: useParams as <Route extends keyof Routers[Key]>() => RouteParams<
+    useParams: useParams as <Route extends keyof Routers[Key]>() => () => RouteParams<
       Key,
       Route
     >,
   }))();
 }
+
+
+const a = createStackRouter();
+a.useParams()
