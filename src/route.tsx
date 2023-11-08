@@ -1,6 +1,7 @@
 import { onCleanup, onMount } from "solid-js";
 import { useRouter, useRouterInternal } from "./context";
 import {
+  NavigationRoute,
   NavigationStack,
   NavigationStackInternal,
   RouteOptions,
@@ -14,6 +15,7 @@ export function createRoute<Key extends keyof Routers>() {
     //@ts-ignore
     initialParams?: Routers[Key][RouteName]["params"];
     routeOptions?: RouteOptions;
+    pageProps?: Omit<JSX.IntrinsicElements["page"], "toString">
   }): JSX.Element => {
     const router = useRouter() as NavigationStack<Key, RouteName>;
     const routerInternal = useRouterInternal() as NavigationStackInternal<
@@ -24,7 +26,8 @@ export function createRoute<Key extends keyof Routers>() {
       name: props.name,
       component: props.component,
       routeOptions: props.routeOptions,
-    };
+      pageProps: props.pageProps
+    } as NavigationRoute<never, any>
 
     onMount(() => {
       routerInternal?.pushRoute(route);

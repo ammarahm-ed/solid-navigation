@@ -1,6 +1,6 @@
 import { render } from "@nativescript-community/solid-js";
 import { Frame } from "@nativescript/core";
-import { createSignal } from "solid-js";
+import { isNullOrUndefined } from "@nativescript/core/utils";
 import { createStore } from "solid-js/store";
 import {
   NavigationContext,
@@ -26,18 +26,18 @@ function getRoutes<
 >(routes?: Routers[Key]) {
   return routes
     ? Object.keys(routes).map(
-        (route) =>
-          ({
-            name: route,
-            params: (routes[route as RouteName] as { params: any })?.["params"],
-            routeOptions: (routes[route as RouteName] as { options: any })?.[
-              "options"
-            ],
-            component: (routes[route as RouteName] as { component: any })?.[
-              "component"
-            ],
-          } as NavigationRoute<Key, RouteName>)
-      )
+      (route) =>
+      ({
+        name: route,
+        params: (routes[route as RouteName] as { params: any })?.["params"],
+        routeOptions: (routes[route as RouteName] as { options: any })?.[
+          "options"
+        ],
+        component: (routes[route as RouteName] as { component: any })?.[
+          "component"
+        ],
+      } as NavigationRoute<Key, RouteName>)
+    )
     : [];
 }
 
@@ -54,6 +54,8 @@ export function createStackRouter<Key extends keyof Routers>(
      * in the application.
      */
     useTopMostFrame?: boolean;
+    frameProps?: Omit<JSX.IntrinsicElements["frame"], "toString">
+    defaultPageProps?: Omit<JSX.IntrinsicElements["page"], "toString">
   }): JSX.Element => {
     let frameRef: Frame | undefined = props.useTopMostFrame
       ? undefined
@@ -66,7 +68,6 @@ export function createStackRouter<Key extends keyof Routers>(
       routes: getRoutes(routes),
       stack: [],
     });
-
     const navigate = (
       routeName: keyof Routers[Key],
       options?: RouteOptions & { params?: any }
@@ -78,18 +79,31 @@ export function createStackRouter<Key extends keyof Routers>(
       if (!route)
         //@ts-ignore
         return console.warn(
-          `Trying to navigate to a route "${
-            routeName as string
+          `Trying to navigate to a route "${routeName as string
           }" that does not exist in the route map.`
         );
       frameRef = !props.useTopMostFrame ? frameRef : Frame.topmost();
       frameRef?.navigate({
         create: () => {
           const page = document.createElement("Page");
+
+          if (route.pageProps || props.defaultPageProps) {
+            Object.assign(page, route.pageProps || props.defaultPageProps);
+          }
+
           page.id = createRouteID(routeName as string, 16);
-          const [paramAccessor, paramSetter] = createSignal<{
+
+          if (!isNullOrUndefined(options?.noHeader) ||
+            !isNullOrUndefined(props.defaultRouteOptions?.noHeader) ||
+            !isNullOrUndefined(route.routeOptions?.noHeader)) {
+            page.actionBarHidden = options?.noHeader || props.defaultRouteOptions?.noHeader
+              || route.routeOptions?.noHeader || false;
+          }
+
+          const [paramAccessor, paramSetter] = createStore<{
             [name: string]: unknown;
           }>(options?.params || route.params);
+
           setState("stack", (stack) => {
             return [
               ...stack,
@@ -146,12 +160,12 @@ export function createStackRouter<Key extends keyof Routers>(
           typeof options?.clearHistory === "boolean"
             ? options?.clearHistory
             : route.routeOptions?.clearHistory ||
-              props.defaultRouteOptions?.clearHistory,
+            props.defaultRouteOptions?.clearHistory,
         backstackVisible:
           typeof options?.backstackVisible === "boolean"
             ? options?.backstackVisible
             : route.routeOptions?.backstackVisible ||
-              props.defaultRouteOptions?.backstackVisible,
+            props.defaultRouteOptions?.backstackVisible,
       });
     };
 
@@ -190,6 +204,7 @@ export function createStackRouter<Key extends keyof Routers>(
         <NavigationContext.Provider value={context}>
           {!props.useTopMostFrame ? (
             <frame
+              {...props.frameProps}
               ref={(ref) => {
                 frameRef = ref;
               }}
@@ -205,13 +220,9 @@ export function createStackRouter<Key extends keyof Routers>(
     Route: createRoute<Key>(),
     StackRouter: StackRouter,
     useRouter: useRouter as () => NavigationStack<Key, RouteName>,
-    useParams: useParams as <Route extends keyof Routers[Key]>() => () => RouteParams<
+    useParams: useParams as <Route extends keyof Routers[Key]>() => RouteParams<
       Key,
       Route
     >,
   }))();
 }
-
-
-const a = createStackRouter();
-a.useParams()

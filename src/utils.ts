@@ -10,3 +10,4 @@ export const createRouteID = (prefix: string, length = 16) => {
     )
   );
 };
+

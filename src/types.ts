@@ -25,18 +25,18 @@ import { Frame, NavigationTransition, Page } from "@nativescript/core";
     export const { Route, StackRouter, useParams, useRouter } = createStackRouter<"Default">();
     ```
      */
-export interface Routers {}
+export interface Routers { }
 
 export type RouteDefinition<T = undefined> = {
   options?: RouteOptions;
-  params?: T;
+  params: T;
   component: () => JSX.Element;
 };
 
 export type RouteParams<
   Key extends keyof Routers,
   Route extends keyof Routers[Key]
-  //@ts-ignore
+//@ts-ignore
 > = Routers[Key][Route]["params"];
 
 export type NavigationRoute<
@@ -47,12 +47,12 @@ export type NavigationRoute<
   name: RouteName;
   component?: () => JSX.Element;
   ref?: Page;
-  //@ts-ignore
-  params?: Routers[Key][RouteName]["params"];
-  setParams?: <RouteName extends keyof Routers[Key]>(
+  params: Routers[Key][RouteName]["params"];
+  setParams: <RouteName extends keyof Routers[Key]>(
     params: RouteParams<Key, RouteName>
   ) => void;
   routeOptions?: RouteOptions;
+  pageProps?: Omit<JSX.IntrinsicElements["page"], "toString">
 };
 
 export interface NavigationStack<
@@ -116,6 +116,7 @@ export type RouteOptions = {
   transitionAndroid?: NavigationTransitionSolid;
   clearHistory?: boolean;
   backstackVisible?: boolean;
+  noHeader?: boolean
 };
 
 export type Transition =

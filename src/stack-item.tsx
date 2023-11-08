@@ -3,7 +3,7 @@ import { ParamsContext, NavigationContext } from "./context";
 
 export const StackItem: Component<{
   context: any;
-  paramAccessor: () => any;
+  paramAccessor: any;
   component: any;
 }> = (props) => {
   const RouteComponent = props.component;

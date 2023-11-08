@@ -10,7 +10,7 @@ export function useRouter() {
   return useContext(NavigationContext);
 }
 
-export const ParamsContext = createContext<() => unknown>();
+export const ParamsContext = createContext<unknown>();
 export function useParams() {
   return useContext(ParamsContext);
 }
