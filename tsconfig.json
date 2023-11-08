@@ -20,5 +20,6 @@
     "declaration": true,
     "incremental": true,
     "types": ["@nativescript-dom/core-types", "@nativescript-dom/solidjs-types"]
-  }
+  },
+  "exclude": ["example", "node_modules", "dist"]
 }
