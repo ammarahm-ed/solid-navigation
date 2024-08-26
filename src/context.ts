@@ -14,3 +14,8 @@ export const ParamsContext = createContext<unknown>();
 export function useParams() {
   return useContext(ParamsContext);
 }
+
+export const RouteContext = createContext<unknown>();
+export function useRoute() {
+  return useContext(RouteContext);
+}

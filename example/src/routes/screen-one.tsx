@@ -1,12 +1,15 @@
+import { useRoute } from "solid-navigation";
 import { useParams, useRouter } from "../router";
 
 export const ScreenOne = () => {
   const router = useRouter();
   const params = useParams<"ScreenOne">();
- 
+  const route = useRoute();
+
+
   return (
     <>
-      <actionbar title="Screen One"/>
+      <actionbar title={route.name}/>
       {/* @ts-ignore */}
       <gridlayout rows="*,auto,*">
         <button
@@ -21,7 +24,10 @@ export const ScreenOne = () => {
             color: "white"
           }}
           on:tap={() => {
-            router.navigate("ScreenTwo");
+            route.setParams({
+              value: Date.now().toString()
+            })
+            // router.navigate("ScreenTwo");
           }}
         />
         

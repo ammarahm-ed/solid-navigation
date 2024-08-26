@@ -1,4 +1,4 @@
-export { createStackRouter } from "./src/stack-router";
+export * from "./src/stack-router";
 export {
   NavigationRoute,
   NavigationStack,

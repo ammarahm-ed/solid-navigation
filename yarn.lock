@@ -2,29 +2,30 @@
 # yarn lockfile v1
 
 
-"@nativescript-community/solid-js@0.0.4-alpha.4":
-  version "0.0.4-alpha.4"
-  resolved "https://registry.yarnpkg.com/@nativescript-community/solid-js/-/solid-js-0.0.4-alpha.4.tgz#c7b2f0690404bf7ebe2f6d9d99ec013b6cbfed47"
-  integrity sha512-uPokHhqdUCi4KsbAzIkq4KrQpW27zoC6lresfqCZOhgb3ah5DsRtNC/212jfcPaBDAHLNw6atCZN6EgECGMeWg==
+"@nativescript-community/solid-js@0.0.6":
+  version "0.0.6"
+  resolved "https://registry.yarnpkg.com/@nativescript-community/solid-js/-/solid-js-0.0.6.tgz#45b6eb79f9309b554a618c4d108658fe6305b41f"
+  integrity sha512-TjKHPfLA+8VGx0Jg/Qn7YBOCymFGHi8Cb/ZNZFHz4Wtvi02m8l+fX8CIQQsALtAzXYnt2V32MB2KPERG71KmBw==
 
-"@nativescript-dom/core-types@^1.0.26":
-  version "1.0.26"
-  resolved "https://registry.yarnpkg.com/@nativescript-dom/core-types/-/core-types-1.0.26.tgz#a21281e3af288588fe5ae5ddb02b41c19095ab1c"
-  integrity sha512-+S0OXC6pJVdTNrY7bg7f9/2thZFcOa6tsAS48GxThTszjmTi1kxkC6+7xcjbrMizWW1vt6O4rYKtfSf8jERwtQ==
+"@nativescript-dom/core-types@^1.0.29":
+  version "1.0.29"
+  resolved "https://registry.yarnpkg.com/@nativescript-dom/core-types/-/core-types-1.0.29.tgz#ba3f1dbdb379785d1c6f5669bac307e3582939d6"
+  integrity sha512-7+3QG4Ktn0D2ugBUsRg74NjMlnV8EloC46eexX0xl8Fo2cpOybbkeocPnnyfs/aq723uAh0157t/uVt2cFe4jA==
 
-"@nativescript-dom/solidjs-types@^1.0.11":
-  version "1.0.11"
-  resolved "https://registry.yarnpkg.com/@nativescript-dom/solidjs-types/-/solidjs-types-1.0.11.tgz#d3e7c7b4d85d078eac01f235de8234644f31f3e9"
-  integrity sha512-RJZnUJBre1pEE3jcL7xbN+fK6BqDjrSO5BCeqFuhLFnQZbh2T4imDaG5MTay0O0rGRx9OEBcnlXg8wJCBVNACA==
+"@nativescript-dom/solidjs-types@^1.0.19":
+  version "1.0.19"
+  resolved "https://registry.yarnpkg.com/@nativescript-dom/solidjs-types/-/solidjs-types-1.0.19.tgz#2634d9be06890756b0cb841f559d5c6865320895"
+  integrity sha512-GYhN53Clry9L/KWF9biX5klhxO1epDpWdsL+XOnvgJreB7tluYiyboc1spdwY4FA1xnQ20vDhh5kFBzisTIJXg==
 
-"@nativescript/core@~8.5.9":
-  version "8.5.9"
-  resolved "https://registry.yarnpkg.com/@nativescript/core/-/core-8.5.9.tgz#fd0d75375808f6c973fd39adc8e08c849c6861e8"
-  integrity sha512-7dHa0cG6GZaBCcjPWhkcSAdvjVevgZN7+3frxO6Rv7c7e1lUDL7yJXy3WnhWZL+iCEG0lLWwQNXkeYsixHie6g==
+"@nativescript/core@~8.8.2":
+  version "8.8.2"
+  resolved "https://registry.yarnpkg.com/@nativescript/core/-/core-8.8.2.tgz#1aeb29808cb6507b9a72116554869bb2c782f0e6"
+  integrity sha512-Rjn1GAeBtjpqVGuIycUH+KfgBvgKrTKCxmigmnKg8vFfUIrIMdm6diS6dojJvsTu+iQNmZVlmhXx3Fe0FWPhGg==
   dependencies:
     "@nativescript/hook" "~2.0.0"
     acorn "^8.7.0"
     css-tree "^1.1.2"
+    css-what "^6.1.0"
     emoji-regex "^10.2.1"
     reduce-css-calc "^2.1.7"
     tslib "^2.0.0"
@@ -73,15 +74,20 @@ css-unit-converter@^1.1.1:
   resolved "https://registry.yarnpkg.com/css-unit-converter/-/css-unit-converter-1.1.2.tgz#4c77f5a1954e6dbff60695ecb214e3270436ab21"
   integrity sha512-IiJwMC8rdZE0+xiEZHeru6YoONC4rfPMqGm2W85jMIbkFvv5nFTwJVFHam2eFrN6txmoUYFAFXiv8ICVeTO0MA==
 
+css-what@^6.1.0:
+  version "6.1.0"
+  resolved "https://registry.yarnpkg.com/css-what/-/css-what-6.1.0.tgz#fb5effcf76f1ddea2c81bdfaa4de44e79bac70f4"
+  integrity sha512-HTUrgRJ7r4dsZKU6GjmpfRK1O76h97Z8MfS1G0FozR+oF2kG6Vfe8JE6zwrkbxigziPHinCJ+gCPjA9EaBDtRw==
+
 csstype@^3.1.0:
   version "3.1.1"
   resolved "https://registry.yarnpkg.com/csstype/-/csstype-3.1.1.tgz#841b532c45c758ee546a11d5bd7b7b473c8c30b9"
   integrity sha512-DJR/VvkAvSZW9bTouZue2sSxDwdTN92uHjqeKVm+0dAqdfNykRzQ95tay8aXMBAAPpUiq4Qcug2L7neoRh2Egw==
 
-dominative@^0.0.9-alpha.2:
-  version "0.0.9-alpha.2"
-  resolved "https://registry.yarnpkg.com/dominative/-/dominative-0.0.9-alpha.2.tgz#9731c0e00225011162b921f3f3d12534382eff7f"
-  integrity sha512-5PU1Zb3QNnl4t341ie/DlbNvWP5wzMKSjwg4U1UqZrAHgFUygSITpCPc0xatoS4HnvpeUX0D8fwXnTuzHTLDOQ==
+dominative@0.1.3:
+  version "0.1.3"
+  resolved "https://registry.yarnpkg.com/dominative/-/dominative-0.1.3.tgz#5ca78fe4c196f8ada02a7863d92c61293e2c9ee9"
+  integrity sha512-MGDB5HFb8u+pOanUMfz26yibMd0piiq0TDk1q4z7qJNGKQWMI1CKDaJh6H8dtLDBJoO1sjwC/5WPhBYHga27zQ==
 
 emoji-regex@^10.2.1:
   version "10.2.1"
@@ -188,10 +194,10 @@ typescript@4.9.4:
   resolved "https://registry.yarnpkg.com/typescript/-/typescript-4.9.4.tgz#a2a3d2756c079abda241d75f149df9d561091e78"
   integrity sha512-Uz+dTXYzxXXbsFpM86Wh3dKCxrQqUcVMxwU54orwlJjOpO3ao8L7j5lH+dWfTwgCwIuM9GQ2kvVotzYJMXTBZg==
 
-undom-ng@^1.0.10:
-  version "1.0.10"
-  resolved "https://registry.yarnpkg.com/undom-ng/-/undom-ng-1.0.10.tgz#e7f9b128763c2ec6d5de20f95dbd83b32a71eda1"
-  integrity sha512-BkBtPQ925hRjAZBJSCCNHr9igi/VdZbrizqjHC4uZWWxVPOW0ENXKYMqO/AW0nKXPc5G5psQuJ+q0VlFbyM0Fg==
+undom-ng@^1.1.2:
+  version "1.1.2"
+  resolved "https://registry.yarnpkg.com/undom-ng/-/undom-ng-1.1.2.tgz#c68d1182141957b156a6b1b48c5f71d86862f6f5"
+  integrity sha512-ZYKxr3cM2X4x4D+y1uo82fBHtOM8lNr5od/msdI2AI7YGCwrLkGt/ofOF0RlnDDF9f8gqqSbdMua1eoTc2LbYQ==
 
 wrappy@1:
   version "1.0.2"

@@ -5,8 +5,9 @@ import { createStore } from "solid-js/store";
 import {
   NavigationContext,
   NavigationContextInternal,
-  useParams,
-  useRouter,
+  useParams as useParamsDefault,
+  useRoute as useRouteDefault,
+  useRouter as userRouterDefault,
 } from "./context";
 import { createRoute } from "./route";
 import { StackItem } from "./stack-item";
@@ -26,18 +27,18 @@ function getRoutes<
 >(routes?: Routers[Key]) {
   return routes
     ? Object.keys(routes).map(
-      (route) =>
-      ({
-        name: route,
-        params: (routes[route as RouteName] as { params: any })?.["params"],
-        routeOptions: (routes[route as RouteName] as { options: any })?.[
-          "options"
-        ],
-        component: (routes[route as RouteName] as { component: any })?.[
-          "component"
-        ],
-      } as NavigationRoute<Key, RouteName>)
-    )
+        (route) =>
+          ({
+            name: route,
+            params: (routes[route as RouteName] as { params: any })?.["params"],
+            routeOptions: (routes[route as RouteName] as { options: any })?.[
+              "options"
+            ],
+            component: (routes[route as RouteName] as { component: any })?.[
+              "component"
+            ],
+          } as NavigationRoute<Key, RouteName>)
+      )
     : [];
 }
 
@@ -54,8 +55,8 @@ export function createStackRouter<Key extends keyof Routers>(
      * in the application.
      */
     useTopMostFrame?: boolean;
-    frameProps?: Omit<JSX.IntrinsicElements["frame"], "toString">
-    defaultPageProps?: Omit<JSX.IntrinsicElements["page"], "toString">
+    frameProps?: Omit<JSX.IntrinsicElements["text"], "toString">;
+    defaultPageProps?: Omit<JSX.IntrinsicElements["page"], "toString">;
   }): JSX.Element => {
     let frameRef: Frame | undefined = props.useTopMostFrame
       ? undefined
@@ -79,7 +80,8 @@ export function createStackRouter<Key extends keyof Routers>(
       if (!route)
         //@ts-ignore
         return console.warn(
-          `Trying to navigate to a route "${routeName as string
+          `Trying to navigate to a route "${
+            routeName as string
           }" that does not exist in the route map.`
         );
       frameRef = !props.useTopMostFrame ? frameRef : Frame.topmost();
@@ -93,28 +95,32 @@ export function createStackRouter<Key extends keyof Routers>(
 
           page.id = createRouteID(routeName as string, 16);
 
-          if (!isNullOrUndefined(options?.noHeader) ||
+          if (
+            !isNullOrUndefined(options?.noHeader) ||
             !isNullOrUndefined(props.defaultRouteOptions?.noHeader) ||
-            !isNullOrUndefined(route.routeOptions?.noHeader)) {
-            page.actionBarHidden = options?.noHeader || props.defaultRouteOptions?.noHeader
-              || route.routeOptions?.noHeader || false;
+            !isNullOrUndefined(route.routeOptions?.noHeader)
+          ) {
+            page.actionBarHidden =
+              options?.noHeader ||
+              props.defaultRouteOptions?.noHeader ||
+              route.routeOptions?.noHeader ||
+              false;
           }
 
           const [paramAccessor, paramSetter] = createStore<{
             [name: string]: unknown;
           }>(options?.params || route.params);
 
+          const stackItem = {
+            ...route,
+            id: page.id,
+            ref: page as any,
+            params: options?.params || route.params,
+            setParams: paramSetter,
+          };
+
           setState("stack", (stack) => {
-            return [
-              ...stack,
-              {
-                ...route,
-                id: page.id,
-                ref: page as any,
-                params: options?.params || route.params,
-                setParams: paramSetter,
-              },
-            ];
+            return [...stack, stackItem];
           });
 
           const disposer = render(
@@ -122,7 +128,7 @@ export function createStackRouter<Key extends keyof Routers>(
               <StackItem
                 context={context}
                 paramAccessor={paramAccessor}
-                component={route.component}
+                route={stackItem}
               />
             ),
             page as any
@@ -160,12 +166,12 @@ export function createStackRouter<Key extends keyof Routers>(
           typeof options?.clearHistory === "boolean"
             ? options?.clearHistory
             : route.routeOptions?.clearHistory ||
-            props.defaultRouteOptions?.clearHistory,
+              props.defaultRouteOptions?.clearHistory,
         backstackVisible:
           typeof options?.backstackVisible === "boolean"
             ? options?.backstackVisible
             : route.routeOptions?.backstackVisible ||
-            props.defaultRouteOptions?.backstackVisible,
+              props.defaultRouteOptions?.backstackVisible,
       });
     };
 
@@ -206,7 +212,7 @@ export function createStackRouter<Key extends keyof Routers>(
             <frame
               {...props.frameProps}
               ref={(ref) => {
-                frameRef = ref;
+                // frameRef = ref;
               }}
             />
           ) : null}
@@ -219,10 +225,20 @@ export function createStackRouter<Key extends keyof Routers>(
   return (<RouteName extends keyof Routers[Key]>() => ({
     Route: createRoute<Key>(),
     StackRouter: StackRouter,
-    useRouter: useRouter as () => NavigationStack<Key, RouteName>,
-    useParams: useParams as <Route extends keyof Routers[Key]>() => RouteParams<
-      Key,
-      Route
-    >,
+    useRouter: userRouterDefault as () => NavigationStack<Key, RouteName>,
+    useRoute: useRouteDefault as () => NavigationRoute<Key, RouteName>,
+    useParams: useParamsDefault as <
+      Route extends keyof Routers[Key]
+    >() => RouteParams<Key, Route>,
   }))();
 }
+
+/**
+ *
+ * Create a default stack router
+ */
+//@ts-ignore
+const { Route, StackRouter, useParams, useRoute, useRouter } =
+  //@ts-ignore
+  createStackRouter<"Default">();
+export { Route, StackRouter, useParams, useRoute, useRouter };

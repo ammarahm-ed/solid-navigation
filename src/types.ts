@@ -25,7 +25,7 @@ import { Frame, NavigationTransition, Page } from "@nativescript/core";
     export const { Route, StackRouter, useParams, useRouter } = createStackRouter<"Default">();
     ```
      */
-export interface Routers { }
+export interface Routers {}
 
 export type RouteDefinition<T = undefined> = {
   options?: RouteOptions;
