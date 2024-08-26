@@ -1,1 +1,7 @@
 node_modules
+example
+src
+!dist/src
+tsconfig.json
+yarn.lock
+tsconfig.tsbuildinfo

@@ -212,7 +212,7 @@ export function createStackRouter<Key extends keyof Routers>(
             <frame
               {...props.frameProps}
               ref={(ref) => {
-                // frameRef = ref;
+                frameRef = ref as unknown as Frame;
               }}
             />
           ) : null}

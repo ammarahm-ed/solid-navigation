@@ -8,7 +8,6 @@
     "sourceMap": true,
     "jsx": "preserve",
     "jsxImportSource": "@nativescript-dom/solidjs-types",
-    "noEmitHelpers": true,
     "importHelpers": true,
     "baseUrl": ".",
     "allowJs": true,
@@ -20,7 +19,7 @@
     "outDir": "dist",
     "declaration": true,
     "incremental": true,
-    "types": ["@nativescript-dom/core-types", "@nativescript-dom/solidjs-types"]
+    "types": ["@nativescript-dom/core-types", "@nativescript-dom/solidjs-types"],
   },
-  "exclude": ["example", "node_modules", "dist"]
+  "exclude": ["example", "node_modules", "dist", "tsconfig.json", "nativescript.webpack.js"]
 }

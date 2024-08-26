@@ -5,8 +5,7 @@ export const ScreenOne = () => {
   const router = useRouter();
   const params = useParams<"ScreenOne">();
   const route = useRoute();
-
-
+  
   return (
     <>
       <actionbar title={route.name}/>
@@ -24,10 +23,7 @@ export const ScreenOne = () => {
             color: "white"
           }}
           on:tap={() => {
-            route.setParams({
-              value: Date.now().toString()
-            })
-            // router.navigate("ScreenTwo");
+           router.navigate("ScreenTwo");
           }}
         />
         
