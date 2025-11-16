@@ -1,12 +1,14 @@
 import { render } from "@nativescript-community/solid-js";
 import { Frame } from "@nativescript/core";
 import { isNullOrUndefined } from "@nativescript/core/utils";
-import { createStore } from "solid-js/store";
+import { createSignal, FlowProps } from "solid-js";
+import { createStore, produce } from "solid-js/store";
 import {
   NavigationContext,
   NavigationContextInternal,
   useParams as useParamsDefault,
   useRoute as useRouteDefault,
+  useRouterInternal,
   useRouter as userRouterDefault,
 } from "./context";
 import { createRoute } from "./route";
@@ -23,7 +25,7 @@ import { createRouteID } from "./utils";
 
 function getRoutes<
   Key extends keyof Routers,
-  RouteName extends keyof Routers[Key]
+  RouteName extends keyof Routers[Key],
 >(routes?: Routers[Key]) {
   return routes
     ? Object.keys(routes).map(
@@ -37,13 +39,13 @@ function getRoutes<
             component: (routes[route as RouteName] as { component: any })?.[
               "component"
             ],
-          } as NavigationRoute<Key, RouteName>)
+          }) as NavigationRoute<Key, RouteName>,
       )
     : [];
 }
 
 export function createStackRouter<Key extends keyof Routers>(
-  routes?: Routers[Key]
+  routes?: Routers[Key],
 ) {
   const StackRouter = <RouteName extends keyof Routers[Key]>(props: {
     children?: JSX.Element;
@@ -58,9 +60,9 @@ export function createStackRouter<Key extends keyof Routers>(
     frameProps?: Omit<JSX.IntrinsicElements["text"], "toString">;
     defaultPageProps?: Omit<JSX.IntrinsicElements["page"], "toString">;
   }): JSX.Element => {
-    let frameRef: Frame | undefined = props.useTopMostFrame
-      ? undefined
-      : Frame.topmost();
+    const [frameRef, setFrameRef] = createSignal<Frame | undefined>(
+      props.useTopMostFrame ? undefined : Frame.topmost(),
+    );
     const parentContext = useRouter() as never;
     const [state, setState] = createStore<{
       routes: NavigationRoute<Key, RouteName>[];
@@ -71,10 +73,10 @@ export function createStackRouter<Key extends keyof Routers>(
     });
     const navigate = (
       routeName: keyof Routers[Key],
-      options?: RouteOptions & { params?: any }
+      options?: RouteOptions & { params?: any },
     ) => {
       const routeIndex = state.routes.findIndex(
-        (route) => route.name === routeName
+        (route) => route.name === routeName,
       );
       const route = state.routes[routeIndex];
       if (!route)
@@ -82,10 +84,10 @@ export function createStackRouter<Key extends keyof Routers>(
         return console.warn(
           `Trying to navigate to a route "${
             routeName as string
-          }" that does not exist in the route map.`
+          }" that does not exist in the route map.`,
         );
-      frameRef = !props.useTopMostFrame ? frameRef : Frame.topmost();
-      frameRef?.navigate({
+      setFrameRef(!props.useTopMostFrame ? frameRef() : Frame.topmost());
+      frameRef()?.navigate({
         create: () => {
           const page = document.createElement("Page");
 
@@ -119,9 +121,12 @@ export function createStackRouter<Key extends keyof Routers>(
             setParams: paramSetter,
           };
 
-          setState("stack", (stack) => {
-            return [...stack, stackItem];
-          });
+          setState(
+            "stack",
+            produce((stack) => {
+              stack.push(stackItem);
+            }),
+          );
 
           const disposer = render(
             () => (
@@ -131,19 +136,21 @@ export function createStackRouter<Key extends keyof Routers>(
                 route={stackItem}
               />
             ),
-            page as any
+            page as any,
           );
 
           const disposeNativeView = () => {
             //@ts-ignore
             disposer();
-            setState("stack", (routes) => {
-              const _routes = [...routes].splice(
-                routes.findIndex((r) => r.id === page.id),
-                1
-              );
-              return _routes;
-            });
+            setState(
+              "stack",
+              produce((stack) => {
+                const index = stack.findIndex((r) => r.id === page.id);
+                if (index > -1) {
+                  stack.splice(index, 1);
+                }
+              }),
+            );
             page.off("disposeNativeView", disposeNativeView);
           };
           page.on("disposeNativeView", disposeNativeView);
@@ -176,11 +183,11 @@ export function createStackRouter<Key extends keyof Routers>(
     };
 
     const context: NavigationStack<Key, RouteName> = {
-      ref: () => frameRef,
+      ref: () => frameRef(),
       navigate: navigate,
       goBack: () => {
-        frameRef = !props.useTopMostFrame ? frameRef : Frame.topmost();
-        frameRef?.goBack();
+        setFrameRef(!props.useTopMostFrame ? frameRef() : Frame.topmost());
+        frameRef()?.goBack();
       },
       routes: state.routes,
       stack: state.stack,
@@ -190,45 +197,66 @@ export function createStackRouter<Key extends keyof Routers>(
     };
 
     const contextInternal: NavigationStackInternal<Key, RouteName> = {
+      useTopMostFrame: () => props.useTopMostFrame ?? false,
+      // @ts-ignore
+      frameProps: () => props.frameProps,
+      setFrameRef: setFrameRef,
       pushRoute: (route) => {
-        if (state.routes.findIndex((r) => r.name === route.name) > -1) return;
-        setState("routes", (routes) => [...routes, route]);
+        setState(
+          "routes",
+          produce((routes) => {
+            if (routes.findIndex((r) => r.name === route.name) === -1) {
+              routes.push(route);
+            }
+          }),
+        );
       },
       removeRoute: (route) => {
-        const index = state.routes.findIndex((r) => r.name === route.name);
-        if (index > -1) {
-          setState("routes", (routes) => {
-            const _routes = [...routes].splice(index, 1);
-            return _routes;
-          });
-        }
+        setState(
+          "routes",
+          produce((routes) => {
+            const index = routes.findIndex((r) => r.name === route.name);
+            if (index > -1) {
+              routes.splice(index, 1);
+            }
+          }),
+        );
       },
     };
 
     return (
       <NavigationContextInternal.Provider value={contextInternal}>
         <NavigationContext.Provider value={context}>
-          {!props.useTopMostFrame ? (
-            <frame
-              {...props.frameProps}
-              ref={(ref) => {
-                frameRef = ref as unknown as Frame;
-              }}
-            />
-          ) : null}
           {props.children}
         </NavigationContext.Provider>
       </NavigationContextInternal.Provider>
     );
   };
 
+  const StackRouterFrame = (props: FlowProps) => {
+    const routerInternal = useRouterInternal() as any;
+
+    return (
+      <>
+        {!routerInternal.useTopMostFrame() ? (
+          <frame
+            {...routerInternal?.frameProps()}
+            ref={routerInternal?.setFrameRef}
+          />
+        ) : null}
+        {props.children}
+      </>
+    );
+  };
+
   return (<RouteName extends keyof Routers[Key]>() => ({
     Route: createRoute<Key>(),
     StackRouter: StackRouter,
+    StackRouterFrame: StackRouterFrame,
     useRouter: userRouterDefault as () => NavigationStack<Key, RouteName>,
     useRoute: useRouteDefault as () => NavigationRoute<Key, RouteName>,
     useParams: useParamsDefault as <
-      Route extends keyof Routers[Key]
+      Route extends keyof Routers[Key],
     >() => RouteParams<Key, Route>,
   }))();
 }

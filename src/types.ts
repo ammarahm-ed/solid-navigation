@@ -107,6 +107,9 @@ export interface NavigationStackInternal<
 > {
   pushRoute: (route: NavigationRoute<Key, RouteName>) => void;
   removeRoute: (route: NavigationRoute<Key, RouteName>) => void;
+  setFrameRef: (ref: Frame | undefined) => void;
+  useTopMostFrame: () => boolean
+  frameProps?: () => Omit<JSX.IntrinsicElements["text"], "toString">;
 }
 
 export type RouteOptions = {

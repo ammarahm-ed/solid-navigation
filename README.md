@@ -42,13 +42,18 @@ import { Route, StackRouter } from "./router";
 const App = () => {
   return (
     <StackRouter initialRouteName="Home">
-      <Route
-        name="Home"
-        component={Home}
-        initialParams={{
-          user: "@ammarahmed",
-        }}
-      />
+      <StackRouterFrame>
+        <Route
+          name="Home"
+          component={Home}
+          initialParams={{
+            user: "@ammarahmed",
+          }}
+        />
+      </StackRouterFrame>
+
+      {/* 👇 You can add components independent of the navigation frame that can still use `useRouter()`. */}
+      <BottomNavigation />
     </StackRouter>
   );
 };
