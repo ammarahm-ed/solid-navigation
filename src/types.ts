@@ -44,11 +44,11 @@ export type NavigationRoute<
   RouteName extends keyof Routers[Key]
 > = {
   id?: string;
-  name: RouteName;
+  name: RouteName | ({} & string);
   component?: () => JSX.Element;
   ref?: Page;
   params: Routers[Key][RouteName]["params"];
-  setParams: <RouteName extends keyof Routers[Key]>(
+  setParams: (
     params: RouteParams<Key, RouteName>
   ) => void;
   routeOptions?: RouteOptions;
@@ -67,9 +67,9 @@ export interface NavigationStack<
    * Navigate to a page in stack.
    */
   navigate: <RouteName extends keyof Routers[Key]>(
-    routeName: RouteName,
+    routeName: RouteName | ({} & string),
     //@ts-ignore
-    options?: RouteOptions & { params?: Routers[Key][RouteName]["params"] }
+    options?: RouteOptions & { params?: Routers[Key][RouteName]["params"] | {[name: string]: any} }
   ) => void;
   /**
    * Go back to previous route.

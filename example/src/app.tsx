@@ -5,12 +5,15 @@ import { ScreenThree } from "./routes/screen-three";
 import { ScreenTwo } from "./routes/screen-two";
 
 const App = () => {
-
   return (
     <StackRouter initialRouteName="ScreenOne">
-      <Route name="ScreenOne" component={ScreenOne} initialParams={{
-        value: "hello"
-      }} />
+      <Route
+        name="ScreenOne"
+        component={ScreenOne}
+        initialParams={{
+          value: "Hello World",
+        }}
+      />
       <Route name="ScreenTwo" component={ScreenTwo} />
       <Route name="ScreenThree" component={ScreenThree} />
     </StackRouter>

@@ -32,5 +32,6 @@
     "isolatedModules": true
   },
   "include": ["src"],
+  "files": ["./types/references.d.ts"],
   "exclude": ["node_modules", "platforms"]
 }

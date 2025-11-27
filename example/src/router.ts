@@ -1,16 +1,22 @@
-import { createStackRouter, RouteDefinition } from "solid-navigation";
+import {
+  Route,
+  RouteDefinition,
+  StackRouter,
+  useParams,
+  useRoute,
+  useRouter,
+} from "solid-navigation";
 
 declare module "solid-navigation" {
   export interface Routers {
     Default: {
       ScreenOne: RouteDefinition<{
-        value: string
+        value: string;
       }>;
       ScreenTwo: RouteDefinition;
-      ScreenThree: RouteDefinition
+      ScreenThree: RouteDefinition;
     };
   }
 }
 
-export const { Route, StackRouter, useParams, useRouter } =
-  createStackRouter<"Default">();
+export { Route, StackRouter, useParams, useRoute, useRouter };

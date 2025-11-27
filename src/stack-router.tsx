@@ -9,7 +9,7 @@ import {
   useRoute as useRouteDefault,
   useRouter as userRouterDefault,
 } from "./context";
-import { createRoute } from "./route";
+import { Route as RouteInternal, RouteProps } from "./route";
 import { StackItem } from "./stack-item";
 import {
   NavigationRoute,
@@ -42,22 +42,26 @@ function getRoutes<
     : [];
 }
 
+export type StackRouterProps<Key extends keyof Routers> = {
+  children?: JSX.Element;
+  initialRouteName?: keyof Routers[Key] | ({} & string);
+  defaultRouteOptions?: RouteOptions;
+  /**
+   * By default each router will use it's own `Frame` to render pages. However
+   * you can set this to `true` so pages will be rendered with the topmost frame
+   * in the application.
+   */
+  useTopMostFrame?: boolean;
+  frameProps?: Omit<JSX.IntrinsicElements["text"], "toString">;
+  defaultPageProps?: Omit<JSX.IntrinsicElements["page"], "toString">;
+};
+
 export function createStackRouter<Key extends keyof Routers>(
   routes?: Routers[Key]
 ) {
-  const StackRouter = <RouteName extends keyof Routers[Key]>(props: {
-    children?: JSX.Element;
-    initialRouteName?: keyof Routers[Key];
-    defaultRouteOptions?: RouteOptions;
-    /**
-     * By default each router will use it's own `Frame` to render pages. However
-     * you can set this to `true` so pages will be rendered with the topmost frame
-     * in the application.
-     */
-    useTopMostFrame?: boolean;
-    frameProps?: Omit<JSX.IntrinsicElements["text"], "toString">;
-    defaultPageProps?: Omit<JSX.IntrinsicElements["page"], "toString">;
-  }): JSX.Element => {
+  const StackRouter = <RouteName extends keyof Routers[Key]>(
+    props: StackRouterProps<Key>
+  ): JSX.Element => {
     let frameRef: Frame | undefined = props.useTopMostFrame
       ? undefined
       : Frame.topmost();
@@ -223,10 +227,14 @@ export function createStackRouter<Key extends keyof Routers>(
   };
 
   return (<RouteName extends keyof Routers[Key]>() => ({
-    Route: createRoute<Key>(),
+    Route: RouteInternal as <RouteName extends keyof Routers[Key]>(
+      props: RouteProps<Key, RouteName>
+    ) => JSX.Element,
     StackRouter: StackRouter,
     useRouter: userRouterDefault as () => NavigationStack<Key, RouteName>,
-    useRoute: useRouteDefault as () => NavigationRoute<Key, RouteName>,
+    useRoute: useRouteDefault as <
+      RouteName extends keyof Routers[Key]
+    >() => NavigationRoute<Key, RouteName>,
     useParams: useParamsDefault as <
       Route extends keyof Routers[Key]
     >() => RouteParams<Key, Route>,
@@ -237,8 +245,34 @@ export function createStackRouter<Key extends keyof Routers>(
  *
  * Create a default stack router
  */
-//@ts-ignore
+
 const { Route, StackRouter, useParams, useRoute, useRouter } =
   //@ts-ignore
-  createStackRouter<"Default">();
+  createStackRouter<"Default">() as {
+    Route: (
+      //@ts-ignore
+      props: RouteProps<"Default", keyof Routers["Default"]>
+    ) => JSX.Element;
+    StackRouter: (
+      //@ts-ignore
+      props: StackRouterProps<"Default">
+    ) => JSX.Element;
+    //@ts-ignore
+    useRouter: () => NavigationStack<"Default", keyof Routers["Default"]>;
+    //@ts-ignore
+    useRoute: <RouteName extends keyof Routers["Default"]>() => NavigationRoute<
+      //@ts-ignore
+      "Default",
+      //@ts-ignore
+      RouteName
+    >;
+    //@ts-ignore
+    useParams: <RouteName extends keyof Routers["Default"]>() => RouteParams<
+      //@ts-ignore
+      "Default",
+      //@ts-ignore
+      RouteName
+    >;
+  };
+
 export { Route, StackRouter, useParams, useRoute, useRouter };

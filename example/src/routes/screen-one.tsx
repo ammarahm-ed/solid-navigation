@@ -4,7 +4,7 @@ import { useParams, useRouter } from "../router";
 export const ScreenOne = () => {
   const router = useRouter();
   const params = useParams<"ScreenOne">();
-  const route = useRoute();
+  const route = useRoute<"ScreenOne">();
   
   return (
     <>

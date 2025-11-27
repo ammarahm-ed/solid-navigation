@@ -8,42 +8,50 @@ import {
   Routers,
 } from "./types";
 
-export function createRoute<Key extends keyof Routers>() {
-  const Route = <RouteName extends keyof Routers[Key]>(props: {
-    name: RouteName;
-    component: () => JSX.Element;
-    //@ts-ignore
-    initialParams?: Routers[Key][RouteName]["params"];
-    routeOptions?: RouteOptions;
-    pageProps?: Omit<JSX.IntrinsicElements["page"], "toString">;
-  }): JSX.Element => {
-    const router = useRouter() as NavigationStack<Key, RouteName>;
-    const routerInternal = useRouterInternal() as NavigationStackInternal<
-      Key,
-      RouteName
-    >;
-    const route = {
-      name: props.name,
-      component: props.component,
-      routeOptions: props.routeOptions,
-      pageProps: props.pageProps,
-    } as NavigationRoute<never, any>;
+export type RouteProps<
+  Key extends keyof Routers,
+  RouteName extends keyof Routers[Key]
+> = {
+  name: RouteName;
+  component: () => JSX.Element;
+  //@ts-ignore
+  initialParams?: Routers[Key][RouteName]["params"] extends undefined
+    ? { [name: string]: any }  
+    : Routers[Key][RouteName]["params"];
+  routeOptions?: RouteOptions;
+  pageProps?: Omit<JSX.IntrinsicElements["page"], "toString">;
+};
 
-    onMount(() => {
-      routerInternal?.pushRoute(route);
-      if (router?.initialRouteName === props.name && !router.current()) {
-        router?.navigate(props.name, {
-          params: props.initialParams,
-        });
-      }
-    });
+export const Route = <
+  Key extends keyof Routers,
+  RouteName extends keyof Routers[Key]
+>(
+  props: RouteProps<Key, RouteName>
+): JSX.Element => {
+  const router = useRouter() as NavigationStack<Key, RouteName>;
+  const routerInternal = useRouterInternal() as NavigationStackInternal<
+    Key,
+    RouteName
+  >;
+  const route = {
+    name: props.name,
+    component: props.component,
+    routeOptions: props.routeOptions,
+    pageProps: props.pageProps,
+  } as NavigationRoute<never, any>;
 
-    onCleanup(() => {
-      routerInternal?.removeRoute(route);
-    });
+  onMount(() => {
+    routerInternal?.pushRoute(route);
+    if (router?.initialRouteName === props.name && !router.current()) {
+      router?.navigate(props.name, {
+        params: props.initialParams,
+      });
+    }
+  });
 
-    return null;
-  };
+  onCleanup(() => {
+    routerInternal?.removeRoute(route);
+  });
 
-  return Route;
-}
+  return null;
+};
